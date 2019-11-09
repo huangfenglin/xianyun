@@ -50,6 +50,8 @@ export default {
             data: this.form
           }).then(res => {
             console.log(res);
+            // 调用mutations下的方法修改userInfo,调用时候传入res.data
+             this.$store.commit("user/setUserInfo", res.data);
           });
         }
       });
