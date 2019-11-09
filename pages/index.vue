@@ -18,7 +18,11 @@
       <div class="search-bar">
         <!-- tab栏 -->
         <el-row type="flex" class="search-tab">
-          <span v-for="(item,index) in options" :key="index">
+          <span v-for="(item,index) in options" 
+          :key="index"
+          :class="{active: index === currentIndex}"
+          @click="handleTabChang(index)"
+          >
             <i>{{item.text}}</i>
           </span>
         </el-row>
@@ -26,6 +30,7 @@
         <!-- 输入框 -->
         <el-row type="flex" align="middle" class="search-input">
           <input
+          :placeholder="options[currentIndex].placeholder"
           />
           <i class="el-icon-search"></i>
         </el-row>
@@ -52,7 +57,8 @@ export default {
           text: "机票",
           placeholder: ""
         }
-      ]
+      ],
+      currentIndex: 0
     };
   },
   mounted() {
@@ -64,6 +70,14 @@ export default {
       const { data } = res.data;
       this.banners = data;
     });
+  },
+  methods: {
+    handleTabChang(index) {
+      if(index === 2) {
+        this.$router.push("/air")
+      }
+      this.currentIndex = index
+    }
   }
 };
 </script>
