@@ -39,22 +39,11 @@ export default {
   },
   methods: {
     // 提交登录
-    handleLoginSubmit() {
-      // validate是elementui的form表单的方法，提供一个回调函数校验表单是否通过验证
-      // valid如果值true的话就表示通过
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          this.$axios({
-            url: "/accounts/login",
-            method: "POST",
-            data: this.form
-          }).then(res => {
-            console.log(res);
-            // 调用mutations下的方法修改userInfo,调用时候传入res.data
-             this.$store.commit("user/setUserInfo", res.data);
-          });
-        }
-      });
+   async handleLoginSubmit() {
+      await this.$store.dispatch("user/login",this.form);
+      // 跳转到首页
+      this.$router.replace("/");
+      this.$message.success("登录成功")
     }
   }
 };

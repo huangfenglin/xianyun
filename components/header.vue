@@ -30,7 +30,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item @click.native="handleLogout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <!-- 不存在用户信息展示登录注册链接 -->
@@ -43,7 +43,13 @@
 export default {
   methods: {
     // 用户退出
-    handleLogout() {}
+    // 清空userInfo, 重新初始化store下的userInfo
+    handleLogout() {
+      this.$store.commit("user/setUserInfo",{
+        token: "",
+        user: {}
+      })
+    }
   }
 };
 </script>
