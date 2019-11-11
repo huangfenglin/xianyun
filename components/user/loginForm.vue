@@ -39,12 +39,13 @@ export default {
   },
   methods: {
     // 提交登录
-   async handleLoginSubmit() {
-        
-      await this.$store.dispatch("user/login",this.form);
-      // 跳转到首页
-      this.$router.replace("/");
-      this.$message.success("登录成功")
+    async handleLoginSubmit() {
+      try {
+        await this.$store.dispatch("user/login", this.form);
+        // 跳转到首页
+        this.$router.replace("/");
+        this.$message.success("登录成功");
+      } catch (err) {}
     }
   }
 };

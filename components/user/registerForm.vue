@@ -66,9 +66,9 @@ export default {
       // 表单规则
       rules: {
         username: [
-           // { required: true, message: "请输入用户名", trigger: "blur" },
-           // 自定义验证手机号码
-         { validator: validateUsername, trigger: 'blur' }
+          // { required: true, message: "请输入用户名", trigger: "blur" },
+          // 自定义验证手机号码
+          { validator: validateUsername, trigger: "blur" }
         ],
         captcha: [
           { required: true, message: "请输入手机验证码", trigger: "blur" }
@@ -107,13 +107,14 @@ export default {
       console.log(this.form);
       this.$refs.form.validate(async valid => {
         if (valid) {
-          const { checkPassword, ...props } = this.form;
-          // 请求注册的接口
-          await this.$store.dispatch("user/register", props);
-          // 跳转到首页
-          this.$router.replace("/");
-          // 弹窗提示
-          this.$message.success("注册成功");
+          try {
+            // 解构, props是除了checkPassword之外剩下的属性
+            const { checkPassword, ...props } = this.form;
+            // 请求注册的接口
+            await this.$store.dispatch("user/register", props);
+            this.$router.replace("/");
+            this.$message.success("注册成功");
+          } catch (error) {}
         }
       });
     }
