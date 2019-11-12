@@ -39,6 +39,7 @@
             <el-form-item label="出发时间">
                 <!-- change 用户确认选择日期时触发 -->
                 <el-date-picker type="date" 
+                v-model="form.departDate"
                 placeholder="请选择日期" 
                 style="width: 100%;"
                 @change="handleDate">
@@ -60,6 +61,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
     data(){
         return {
@@ -174,6 +176,8 @@ export default {
         },
         // 确认选择日期时触发
         handleDate(value){
+           this.form.departDate = moment(value).format("YYYY-MM-DD")
+           console.log(this.form);
            
         },
         // 触发和目标城市切换时触发
@@ -182,7 +186,25 @@ export default {
         },
         // 提交表单是触发
         handleSubmit(){
-           
+          const rules = [
+            { value: this.form.departCity, message: "请输入出发城市" },
+            { value: this.form.destCity, message: "请输入到达城市" },
+            { value: this.form.departDate, message: "请选择出发时间" },
+          ]
+           let valid = true;
+            rules.forEach(v => {
+              // 只要有一个条件不满足，终止循环
+              if(!valid) return;
+               if(!v.value){
+                  this.$alert(v.message, "提示")
+                  valid = false;
+               }
+            })
+            if(!valid) return;
+            this.$router.push({
+               path: "/air/flights",
+               query: this.form
+            })
         }
     },
     mounted() {
