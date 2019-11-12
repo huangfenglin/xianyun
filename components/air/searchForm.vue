@@ -124,12 +124,15 @@ export default {
        
         // 出发城市下拉选择时触发
         handleDepartSelect(item) {
-            
+          this.form.departCity = item.value;
+          this.form.departCode = item.sort
+          // console.log(this.form);
+          
         },
         // 目标城市下拉选择时触发
         handleDestSelect(item) {
-            this.form.departCity = item.value;
-            this.form.departCode = item.sort
+
+            
         },
         // 确认选择日期时触发
         handleDate(value){
