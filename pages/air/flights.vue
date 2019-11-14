@@ -18,6 +18,19 @@
                 :key="index"
                 :data="item"
                 />
+                <!-- 分页组件 -->
+                <!-- size-change: 切换条数时候触发的事件 -->
+                <!-- current-change：页数切换时候触发的事件 -->
+                <!-- current-page: 当前页数 -->
+                <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="pageIndex"
+                :page-sizes="[5, 10, 15, 20]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+                </el-pagination>
             </div>
 
             <!-- 侧边栏 -->
@@ -34,12 +47,21 @@ import FlightsItem from "@/components/air/flightsItem"
 export default {
     data(){
         return {
-            flightsData: {}
+            flightsData: {},
+            // 分页的变量
+            pageIndex:1,
+            pageSize:5,
+            total:0
         }
     },
     components: {
         FlightsListHead,
         FlightsItem
+    },
+        methods: {
+        handleSizeChang(val) {},
+        // 切换页数时触发
+        handleCurrentChange(val) {}
     },
     mounted() {
       // 请求机票列表数据
