@@ -208,6 +208,8 @@ export default {
         }
       });
       if (!valid) return;
+      // 保存到vuex的store中
+       this.$store.commit("air/setHistory", this.form);
       this.$router.push({
         path: "/air/flights",
         query: this.form
