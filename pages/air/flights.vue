@@ -47,8 +47,11 @@ import FlightsItem from "@/components/air/flightsItem"
 export default {
     data(){
         return {
-            flightsData: {},
-            dataList: [],
+            flightsData: {
+                flights: []
+            },
+            // 保存当前的分页要渲染的数组,已经在computed里来计算生成
+            // dataList: [],
             // 分页的变量
             pageIndex:1,
             pageSize:5,
@@ -59,21 +62,28 @@ export default {
         FlightsListHead,
         FlightsItem
     },
+    // 保存当前的分页要渲染的数组
+    // ！！computed会监听函数引用所有实例下的属性，一旦属性发生了变化就会再次执行函数，返回新的值
+    computed: {
+        dataList(){
+            const arr = this.flightsData.flights.slice(
+                 // 一下子拿到的是所有数据 所以要截取
+                 (this.pageIndex - 1) * this.pageSize,
+                 this.pageIndex * this.pageSize
+            );
+            return arr;
+        }
+    },
         methods: {
         handleSizeChange(val) {
             console.log(val);
-            
+            this.pageSize = val;
             
         },
         // 切换页数时触发
         handleCurrentChange(val) {
             console.log(val);
             this.pageIndex = val;
-            // 一下子拿到的是所有数据 所以要截取
-            this.dataList = this.flightsData.flights.slice(
-                (val-1)*this.pageSize,
-                val*this.pageSize
-            );
         }
     },
     mounted() {
@@ -85,8 +95,6 @@ export default {
         // 总数据 包含了fights info options flights用来渲染航班列表
         const {data} = res;
         this.flightsData = data;
-        // 当前分页渲染的列表
-        this.dataList = this.flightsData.flights.slice(0, 5);
         // 数据的总条数
         this.total = this.flightsData.total;
       })
