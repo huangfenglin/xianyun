@@ -79,6 +79,10 @@ export default {
             // 到达时间
             const arr = this.data.arr_time.split(":"); // [18, 30]
             const dep = this.data.dep_time.split(":"); // [16, 00]
+            // 如果到达的小时小于出发时间的小时，说明到了第二天凌晨
+            if(arr[0]<dep[0]) {
+                arr[0] = +arr[0] + 24;
+            }
              // 到达和出发时间转换成分钟
             const end = arr[0] * 60 + +arr[1];
             const start = dep[0] * 60 + +dep[1];
