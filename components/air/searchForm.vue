@@ -34,6 +34,7 @@
           :fetch-suggestions="queryDestSearch"
           placeholder="请搜索到达城市"
           @select="handleDestSelect"
+          @blur="handleDestBlur"
           class="el-autocomplete"
         ></el-autocomplete>
       </el-form-item>
