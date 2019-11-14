@@ -69,6 +69,7 @@ export default {
         handleCurrentChange(val) {
             console.log(val);
             this.pageIndex = val;
+            // 一下子拿到的是所有数据 所以要截取
             this.dataList = this.flightsData.flights.slice(
                 (val-1)*this.pageSize,
                 val*this.pageSize
