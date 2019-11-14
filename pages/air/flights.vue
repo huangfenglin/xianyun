@@ -32,9 +32,7 @@
             </div>
 
             <!-- 侧边栏 -->
-            <div class="aside">
-                <!-- 侧边栏组件 -->
-            </div>
+            <FlightsAside/>
         </el-row>
     </section>
 </template>
@@ -43,6 +41,7 @@
 import FlightsListHead from "@/components/air/flightsListHead"
 import FlightsItem from "@/components/air/flightsItem"
 import FlightsFilters from "@/components/air/flightsFilters"
+import FlightsAside from "@/components/air/flightsAside"
 export default {
     data(){
         return {
@@ -68,7 +67,8 @@ export default {
     components: {
         FlightsListHead,
         FlightsItem,
-        FlightsFilters
+        FlightsFilters,
+        FlightsAside
     },
     // 保存当前的分页要渲染的数组
     // ！！computed会监听函数引用所有实例下的属性，一旦属性发生了变化就会再次执行函数，返回新的值
