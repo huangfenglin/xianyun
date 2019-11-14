@@ -5,7 +5,7 @@
             <!-- 顶部过滤列表 -->
             <div class="flights-content">
                 <!-- 过滤条件 -->
-                <FlightsFilters :data="flightsData" @setDataList="setDataList"/>
+                <FlightsFilters :data="cacheFlightsData" @setDataList="setDataList"/>
 
                 <!-- 航班头部布局 -->
                 <FlightsListHead/>
@@ -51,6 +51,12 @@ export default {
                 info: {},
                 options: {}
             },
+             // 缓存一份总数据，这份数据一旦赋值之后不能被修改
+              cacheFlightsData:{
+                  flights: [],
+                  info: {},
+                   options: {}
+              },
             // 保存当前的分页要渲染的数组,已经在computed里来计算生成
             // dataList: [],
             // 分页的变量
@@ -101,6 +107,8 @@ export default {
         // 总数据 包含了fights info options flights用来渲染航班列表
         const {data} = res;
         this.flightsData = data;
+         // 赋值给拷贝的新数据, 这份数据一旦赋值之后不能被修改
+         this.cacheFlightsData = {...data};
         // 数据的总条数
         this.total = this.flightsData.total;
       })
