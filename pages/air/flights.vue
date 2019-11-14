@@ -5,7 +5,7 @@
             <!-- 顶部过滤列表 -->
             <div class="flights-content">
                 <!-- 过滤条件 -->
-                <FlightsFilters/>
+                <FlightsFilters :data="flightsData" @setDataList="setDataList"/>
 
                 <!-- 航班头部布局 -->
                 <FlightsListHead/>
@@ -47,7 +47,9 @@ export default {
     data(){
         return {
             flightsData: {
-                flights: []
+                flights: [],
+                info: {},
+                options: {}
             },
             // 保存当前的分页要渲染的数组,已经在computed里来计算生成
             // dataList: [],
@@ -84,6 +86,10 @@ export default {
         handleCurrentChange(val) {
             console.log(val);
             this.pageIndex = val;
+        },
+        setDataList(arr){
+            // 这里是有问题的，一旦修改了flightsData,后面的值都会只剩下过滤后
+            this.flightsData.flights = arr;
         }
     },
     mounted() {
