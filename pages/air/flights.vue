@@ -14,7 +14,7 @@
 
                 <!-- 航班信息 -->
                 <FlightsItem 
-                v-for="(item,index) in flightsData.flights" 
+                v-for="(item,index) in dataList" 
                 :key="index"
                 :data="item"
                 />
@@ -48,10 +48,11 @@ export default {
     data(){
         return {
             flightsData: {},
+            dataList: [],
             // 分页的变量
             pageIndex:1,
             pageSize:5,
-            total:0
+            total:0,
         }
     },
     components: {
@@ -59,9 +60,15 @@ export default {
         FlightsItem
     },
         methods: {
-        handleSizeChang(val) {},
+        handleSizeChange(val) {
+            console.log(val);
+            
+        },
         // 切换页数时触发
-        handleCurrentChange(val) {}
+        handleCurrentChange(val) {
+            console.log(val);
+            
+        }
     },
     mounted() {
       // 请求机票列表数据
@@ -72,6 +79,10 @@ export default {
         // 总数据 包含了fights info options flights用来渲染航班列表
         const {data} = res;
         this.flightsData = data;
+        // 当前分页渲染的列表
+        this.dataList = this.flightsData.flights.slice(0, 5);
+        // 数据的总条数
+        this.total = this.flightsData.total;
       })
     }
 }
