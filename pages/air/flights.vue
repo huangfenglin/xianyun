@@ -63,11 +63,16 @@ export default {
         handleSizeChange(val) {
             console.log(val);
             
+            
         },
         // 切换页数时触发
         handleCurrentChange(val) {
             console.log(val);
-            
+            this.pageIndex = val;
+            this.dataList = this.flightsData.flights.slice(
+                (val-1)*this.pageSize,
+                val*this.pageSize
+            );
         }
     },
     mounted() {
