@@ -44,7 +44,7 @@ export default {
       try {
         await this.$store.dispatch("user/login", this.form);
         // 跳转到首页
-        this.$router.replace("/");
+        this.$router.back();
         this.$message.success("登录成功");
       } catch (err) {}
     }
