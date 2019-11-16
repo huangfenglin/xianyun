@@ -123,7 +123,24 @@ export default {
       this.$message.success("模拟的手机验证码是：" + code)
     },
     // 提交订单
-    handleSubmit() {},
+    handleSubmit() {
+      // 修改座位id和航班的id,id:air是声明了别名
+      const {id: air,seat_xid } = this.$route.query;
+      // 解构成一个新对象,浅拷贝深拷贝都适用
+      this.form = {
+        ...this.form,
+        air,
+        seat_xid
+      }
+
+      this.$axios({
+        url:  "/airorders",
+        method: "POST",
+        data: this.form
+      }).then(res => {
+        console.log(res);
+      })
+    },
     // 选中保险选项时候触发
     handleInsurance(id){
       const index = this.form.insurances.indexOf(id);
