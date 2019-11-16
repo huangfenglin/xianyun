@@ -5,18 +5,18 @@
             <OrderForm/>
 
             <!-- 侧边栏 -->
-            <div class="aside">
-
-            </div>
+   <OrderAside :data="$store.state.air.infoData"/>
         </el-row>
     </div>
 </template>
 
 <script>
 import OrderForm from "@/components/air/orderForm"
+import OrderAside from "@/components/air/orderAside"
 export default {
     components: {
-        OrderForm
+        OrderForm,
+        OrderAside
     }
 }
 </script>

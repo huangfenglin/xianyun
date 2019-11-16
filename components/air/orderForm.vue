@@ -34,13 +34,12 @@
       <h2>保险</h2>
       <div>
         <!-- 循环渲染保险的数据，数据来源于后台 -->
-        <div class="insurance-item"
-        v-for="(item, index) in infoData.insurances"
-        :key="index">
-          <el-checkbox 
-          @change="handleInsurance(item.id)"
-          :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`"
-           border></el-checkbox>
+        <div class="insurance-item" v-for="(item, index) in infoData.insurances" :key="index">
+          <el-checkbox
+            @change="handleInsurance(item.id)"
+            :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`"
+            border
+          ></el-checkbox>
         </div>
       </div>
     </div>
@@ -55,7 +54,7 @@
           </el-form-item>
 
           <el-form-item label="手机">
-            <el-input placeholder="请输入内容"  v-model="form.contactPhone">
+            <el-input placeholder="请输入内容" v-model="form.contactPhone">
               <template slot="append">
                 <el-button @click="handleSendCaptcha">发送验证码</el-button>
               </template>
@@ -77,26 +76,26 @@
 export default {
   data() {
     return {
-       // 用户列表，至少有一项
+      // 用户列表，至少有一项
       form: {
-               users: [
-         {
-           username: "",
-           id: ""
-         }
-       ],
-       // 保险id集合
-       insurances: [],
-       contactName: "",   // 联系人姓名
-       contactPhone: "",  // 联系人电话
-       captcha: "",       // 手机验证码
-       invoice: true,     // 发票，默认false
-       seat_xid: "",      // 座位id
-       air: ""            // 航班id
+        users: [
+          {
+            username: "",
+            id: ""
+          }
+        ],
+        // 保险id集合
+        insurances: [],
+        contactName: "", // 联系人姓名
+        contactPhone: "", // 联系人电话
+        captcha: "", // 手机验证码
+        invoice: true, // 发票，默认false
+        seat_xid: "", // 座位id
+        air: "" // 航班id
       },
       //  当前机票信息
       infoData: {}
-    }
+    };
   },
   methods: {
     // 添加乘机人
@@ -104,7 +103,7 @@ export default {
       this.form.users.push({
         username: "",
         id: ""
-      })
+      });
     },
 
     // 移除乘机人
@@ -114,27 +113,30 @@ export default {
 
     // 发送手机验证码
     async handleSendCaptcha() {
-      if(!this.form.contactPhone){
-        this.$message.error("请输入手机号码")
+      if (!this.form.contactPhone) {
+        this.$message.error("请输入手机号码");
         return;
       }
       // 调用store下actions的发送手机验证码的方法
-      const code = await this.$store.dispatch("user/sendCaptcha",this.form.contactPhone);
-      this.$message.success("模拟的手机验证码是：" + code)
+      const code = await this.$store.dispatch(
+        "user/sendCaptcha",
+        this.form.contactPhone
+      );
+      this.$message.success("模拟的手机验证码是：" + code);
     },
     // 提交订单
     handleSubmit() {
       // 修改座位id和航班的id,id:air是声明了别名
-      const {id: air,seat_xid } = this.$route.query;
+      const { id: air, seat_xid } = this.$route.query;
       // 解构成一个新对象,浅拷贝深拷贝都适用
       this.form = {
         ...this.form,
         air,
         seat_xid
-      }
+      };
 
       this.$axios({
-        url:  "/airorders",
+        url: "/airorders",
         method: "POST",
         data: this.form,
         headers: {
@@ -143,31 +145,34 @@ export default {
         }
       }).then(res => {
         console.log(res);
-      })
+        // 保存当前机票信息数据
+      });
     },
     // 选中保险选项时候触发
-    handleInsurance(id){
+    handleInsurance(id) {
       const index = this.form.insurances.indexOf(id);
-      if(index > -1) {
+      if (index > -1) {
         //如果已经选中了，就要删除该保险
-        this.form.insurances.splice(index,1)
-      }else {
+        this.form.insurances.splice(index, 1);
+      } else {
         this.form.insurances.push(id);
       }
     }
   },
-  mounted () {
-    const {id, seat_xid} = this.$route.query;
+  mounted() {
+    const { id, seat_xid } = this.$route.query;
     // 请求当前的机票信息
     this.$axios({
-      url: "/airs/" +id,
+      url: "/airs/" + id,
       params: {
         seat_xid
       }
-    }).then(res =>{
+    }).then(res => {
       // 保存当前机票信息数据
-      this.infoData = res.data
-    })
+      this.infoData = res.data;
+      // 保存到store
+      this.$store.commit("air/setInfoData", res.data);
+    });
   }
 };
 </script>
