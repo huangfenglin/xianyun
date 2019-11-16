@@ -5,7 +5,8 @@ export const state = () => {
     infoData: {
       // 防止页面报错
       seat_infos: {}
-    }
+    },
+    allPrice: 0
   }
 }
 
@@ -17,5 +18,8 @@ export const mutations = {
    // 设置选中机票信息
    setInfoData(state, data){
     state.infoData = data;
+  },
+  setAllPrice(state, price){
+    state.allPrice = price;
   }
 }
