@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="air-column">
-      <h2>剩机人</h2>
+      <h2>乘机人</h2>
       <el-form class="member-info">
         <!-- 乘机人信息列表，根据人数循环这个div -->
         <div class="member-info-item" v-for="(item, index) in users" :key="index">
@@ -34,8 +34,12 @@
       <h2>保险</h2>
       <div>
         <!-- 循环渲染保险的数据，数据来源于后台 -->
-        <div class="insurance-item">
-          <el-checkbox label="航空意外险：￥30/份×1  最高赔付260万" border></el-checkbox>
+        <div class="insurance-item"
+        v-for="(item, index) in infoData.insurances"
+        :key="index">
+          <el-checkbox 
+          :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`"
+           border></el-checkbox>
         </div>
       </div>
     </div>
@@ -78,7 +82,9 @@ export default {
            username: "",
            id: ""
          }
-       ]
+       ],
+      //  当前机票信息
+      infoData: {}
     }
   },
   methods: {
@@ -99,6 +105,19 @@ export default {
     handleSendCaptcha() {},
     // 提交订单
     handleSubmit() {}
+  },
+  mounted () {
+    const {id, seat_xid} = this.$route.query;
+    // 请求当前的机票信息
+    this.$axios({
+      url: "/airs/" +id,
+      params: {
+        seat_xid
+      }
+    }).then(res =>{
+      // 保存当前机票信息数据
+      this.infoData = res.data
+    })
   }
 };
 </script>
