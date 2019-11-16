@@ -69,6 +69,8 @@
                 撤销
     		</el-button>
         </div>
+         <!-- 只是为了单纯触发computed的函数调用，不需要显示内容 -->
+         <span v-show="false">{{filter}}</span>
     </div>
 </template>
 
@@ -95,15 +97,43 @@ export default {
             ]
         }
     },
+    computed: {
+        // 监听过滤选项的变化
+        filter() {
+            let arr = [];
+            // 过滤符合条件的航班
+            arr = this.data.flights.filter(v => {
+                // 假设所有数据都符合条件,我们筛选不符合的出来
+                let valid = true;
+                // 开始和出发时间段
+                const [start,end] = this.flightTimes.split(",")
+                // 航班出发的小时
+                const current = +v.dep_time.split(":")[0];
+                // 找出不符合条件的
+                if(
+                    this.airport && this.airport != v.org_airport_name ||
+                    this.company && this.company != v.airline_name  ||
+                    this.airSize && this.airSize != v.plane_size ||
+                    this.flightTimes && !(+start <= current && current < +end)
+                    ) {
+                         valid = false
+                    }
+                    return valid
+            });
+            // 触发传递的事件，修改dataList
+            this.$emit("setDataList", arr)
+            return ""     
+        }
+    },
     methods: {
         // 选择机场时候触发
         handleAirport(value){
             // 过滤符合条件的航班
-            const arr = this.data.flights.filter(v => {
-              return v.org_airport_name  == value;
-            });
-            // 触发传递的事件，修改dataList
-            this.$emit("setDataList",arr)
+            // const arr = this.data.flights.filter(v => {
+            //   return v.org_airport_name  == value;
+            // });
+            // // 触发传递的事件，修改dataList
+            // this.$emit("setDataList",arr)
         },
         // 选择出发时间时候触发
         handleFlightTimes(value){
