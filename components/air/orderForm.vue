@@ -136,7 +136,11 @@ export default {
       this.$axios({
         url:  "/airorders",
         method: "POST",
-        data: this.form
+        data: this.form,
+        headers: {
+          // Bearer属于jwt的token标准
+          AuthorizationL: "Bearer" + this.$store.user.userInfo.token
+        }
       }).then(res => {
         console.log(res);
       })
