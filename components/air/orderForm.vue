@@ -4,7 +4,7 @@
       <h2>乘机人</h2>
       <el-form class="member-info">
         <!-- 乘机人信息列表，根据人数循环这个div -->
-        <div class="member-info-item" v-for="(item, index) in users" :key="index">
+        <div class="member-info-item" v-for="(item, index) in form.users" :key="index">
           <el-form-item label="乘机人类型">
             <el-input placeholder="姓名" class="input-with-select" v-model="item.username">
               <el-select slot="prepend" value="1" placeholder="请选择">
@@ -38,6 +38,7 @@
         v-for="(item, index) in infoData.insurances"
         :key="index">
           <el-checkbox 
+          @change="handleInsurance(item.id)"
           :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`"
            border></el-checkbox>
         </div>
@@ -77,12 +78,22 @@ export default {
   data() {
     return {
        // 用户列表，至少有一项
-       users: [
+      form: {
+               users: [
          {
            username: "",
            id: ""
          }
        ],
+       // 保险id集合
+       insurances: [],
+       contactName: "",
+       contactPhone: "",
+       captcha: "",
+       invoice: true,
+       seat_xid: "",
+                air: ""
+      },
       //  当前机票信息
       infoData: {}
     }
@@ -90,7 +101,7 @@ export default {
   methods: {
     // 添加乘机人
     handleAddUsers() {
-      this.users.push({
+      this.form.users.push({
         username: "",
         id: ""
       })
@@ -98,13 +109,23 @@ export default {
 
     // 移除乘机人
     handleDeleteUser(index) {
-      this.users.splice(index, 1);
+      this.form.users.splice(index, 1);
     },
 
     // 发送手机验证码
     handleSendCaptcha() {},
     // 提交订单
-    handleSubmit() {}
+    handleSubmit() {},
+    // 选中保险选项时候触发
+    handleInsurance(id){
+      const index = this.form.insurances.indexOf(id);
+      if(index > -1) {
+        //如果已经选中了，就要删除该保险
+        this.form.insurances.splice(index,1)
+      }else {
+        this.form.insurances.push(id);
+      }
+    }
   },
   mounted () {
     const {id, seat_xid} = this.$route.query;
