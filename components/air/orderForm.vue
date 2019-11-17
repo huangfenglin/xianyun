@@ -154,18 +154,26 @@ export default {
         air,
         seat_xid
       };
-
       this.$axios({
         url: "/airorders",
         method: "POST",
         data: this.form,
         headers: {
           // Bearer属于jwt的token标准
-          AuthorizationL: "Bearer" + this.$store.user.userInfo.token
+         Authorization: "Bearer " + this.$store.state.user.userInfo.token
         }
       }).then(res => {
-        console.log(res);
+        // console.log(res.data);
         // 保存当前机票信息数据
+        this.$message.success("订单提交成功， 跳转到付款页")
+        // 跳转到付款页
+        this.$router.push({
+          path: "/air/pay",
+          query: {
+            // 付款页需要id获取订单详情
+            id: res.data.data.id
+          }
+        })
       });
     },
     // 选中保险选项时候触发
