@@ -29,12 +29,14 @@ import QRCode from "qrcode";
 export default {
   data() {
     return {
-      order: {}
+      order: {},
+      // 定时器
+      timer: null
     };
   },
   methods: {
-    checkPay(data) {
-      this.$axios({
+    async checkPay(data) {
+      const res = await this.$axios({
         url: "/airorders/checkpay",
         method: "POST",
         data: {
@@ -45,13 +47,16 @@ export default {
         headers: {
           Authorization: "Bearer " + this.$store.state.user.userInfo.token
         }
-      }).then(res => {
-        console.log(res);
-        
-      })
+      });
+      const { statusTxt } = res.data;
+      this.$alert(statusTxt, "提示", {
+        type: "success"
+      });
+      clearInterval(this.timer);
+      this.timer = null;
     }
   },
-  mounted(){
+  mounted() {
     // 获取订单id
     const { id } = this.$route.query;
     // 定时器主要为了等待本地存储把值返回给store，才可以获取到token
@@ -66,15 +71,17 @@ export default {
       }).then(res => {
         this.order = res.data;
         // 生成二维码
-        const canvas = document.querySelector("#qrcode-stage")
-         // 第一个参数是canvas dom元素, 要生成二位码的链接
-         QRCode.toCanvas(canvas,this.order.payInfo.code_url,{
-             width: 200
-         });
-          // 支付结果轮询
+        const canvas = document.querySelector("#qrcode-stage");
+        // 第一个参数是canvas dom元素, 要生成二位码的链接
+        QRCode.toCanvas(canvas, this.order.payInfo.code_url, {
+          width: 200
+        });
+        // 支付结果轮询
+        this.timer = setInterval(() => {
           this.checkPay(this.order);
-      })
-    }, 1)
+        }, 3000);
+      });
+    }, 1);
   },
   filters: {
     tofixed(value) {
