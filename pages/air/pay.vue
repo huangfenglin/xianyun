@@ -32,6 +32,25 @@ export default {
       order: {}
     };
   },
+  methods: {
+    checkPay(data) {
+      this.$axios({
+        url: "/airorders/checkpay",
+        method: "POST",
+        data: {
+          id: data.id,
+          nonce_str: "data.price", // 订单金额
+          out_trade_no: data.orderNo // 订单编码
+        },
+        headers: {
+          Authorization: "Bearer " + this.$store.state.user.userInfo.token
+        }
+      }).then(res => {
+        console.log(res);
+        
+      })
+    }
+  },
   mounted(){
     // 获取订单id
     const { id } = this.$route.query;
@@ -52,6 +71,8 @@ export default {
          QRCode.toCanvas(canvas,this.order.payInfo.code_url,{
              width: 200
          });
+          // 支付结果轮询
+          this.checkPay(this.order);
       })
     }, 1)
   },
