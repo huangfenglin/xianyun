@@ -120,6 +120,7 @@
     </div>
 
     <el-pagination
+      class="pagination"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="pageIndex"
@@ -128,32 +129,47 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
+    <div class="hint" v-if="articleData.length === 0 && isShow">！该城市暂无数据</div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    cityData: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
       articleData: [],
       pageIndex: 1,
       pageSize: 3,
-      total: 0
+      total: 0,
+      isShow: false
     };
   },
   methods: {
     getpostsList(){
-      this.$axios({
-      url: "posts",
-      params: {
+      let data = {
         _start: this.pageIndex,
         _limit: this.pageSize
       }
+      if(this.cityData) {
+        data.city = this.cityData
+      }
+      console.log(data);
+      
+      this.$axios({
+      url: "posts",
+      params: data
     }).then(res => {
       console.log(res.data);
       const { data, total } = res.data;
       this.articleData = data;
-      this.total = total
+      this.total = total;
+      this.isShow = true;
     });
     },
     handleSizeChange(val) {
@@ -170,6 +186,11 @@ export default {
   },
   mounted() {
     this.getpostsList()
+  },
+  watch: {
+    cityData() {
+      this.getpostsList()
+    }
   }
 };
 </script>
@@ -395,5 +416,14 @@ export default {
       }
     }
   }
+  .pagination {
+    padding: 10px 0;
+  }
+      .hint {
+      width: 100%;
+      text-align: center;
+      line-height: 80px;
+      font-size: 18px;
+    }
 }
 </style>

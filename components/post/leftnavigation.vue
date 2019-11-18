@@ -15,8 +15,8 @@
     <div class="hotCities" v-if="isShow" >
       <p v-for="(item,index) in cityMenuList[currentIndex].children" :key="index">
         <span class="ranking">{{index + 1}}</span>
-        <span class="city">{{item.city}}</span>
-        <span class="describe">{{item.desc}}</span>
+        <span class="city" @click="handleCity(item.city)">{{item.city}}</span>
+        <span class="describe" @click="handleCity(item.city)">{{item.desc}}</span>
       </p>
       <i class="border"></i>
     </div>
@@ -46,6 +46,15 @@ export default {
     },
     hiddenhotCities() {
       this.isShow = false
+    },
+    // 获取城市名
+    handleCity(city) {
+      this.$router.push({
+        query:{
+          city:city
+        }
+      })
+      this.$emit("getCity",city)
     }
   },
   // 侧边城市菜单数据

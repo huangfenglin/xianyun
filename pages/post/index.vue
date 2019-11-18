@@ -1,11 +1,12 @@
 <template>
   <div class="container">
     <!-- 左侧边栏组件 -->
-  <leftNavigation/>
+  <leftNavigation @getCity="getCity"/>
 
   <!-- 右边组件 -->
   <div class="articleList">
-  <articleList/>
+  <articleList :cityData="cityData"/>
+   
   </div>
   </div>
 </template>
@@ -18,6 +19,16 @@ export default {
 components: {
   leftNavigation,
   articleList
+},
+data() {
+  return {
+    cityData:"",
+  }
+},
+methods: {
+  getCity(city) {
+    this.cityData = city
+  }
 }
 }
 </script>
