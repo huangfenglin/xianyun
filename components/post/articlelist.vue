@@ -22,7 +22,12 @@
     </div>
 
     <!-- 三张图片的布局 -->
-    <div class="articleDetails" v-for="(item,index) in articleData" :key="index" v-if="item.images.length >= 3 ">
+    <div
+      class="articleDetails"
+      v-for="(item,index) in articleData"
+      :key="index"
+      v-if="item.images.length >= 3 "
+    >
       <div class="title">{{item.title}}</div>
       <div class="article" v-html="item.summary"></div>
       <div class="imgLists">
@@ -32,23 +37,30 @@
       </div>
       <div class="Info">
         <div class="left">
-        <span class="city">
-          <i class="el-icon-location-outline"></i>
-          {{item.cityName}}</span>
-        <span class="userImg">
-          by
-            <img :src="$axios.defaults.baseURL + item.account.defaultAvatar" alt />
-          {{item.account.nickname}}</span>
-        <span class="browseVolume">
-           <i class="el-icon-view"></i>
-           {{item.watch === null ? 0 : item.watch}}
+          <span class="city">
+            <i class="el-icon-location-outline"></i>
+            {{item.cityName}}
           </span>
-          </div>
-          <span class="like">{{item.like === null? 0 : item.like}} 赞</span>
+          <span class="userImg">
+            by
+            <img :src="$axios.defaults.baseURL + item.account.defaultAvatar" alt />
+            {{item.account.nickname}}
+          </span>
+          <span class="browseVolume">
+            <i class="el-icon-view"></i>
+            {{item.watch === null ? 0 : item.watch}}
+          </span>
+        </div>
+        <span class="like">{{item.like === null? 0 : item.like}} 赞</span>
       </div>
     </div>
     <!-- 一张跟二张时的布局 -->
-    <div class="singleImgPost" v-for="(item,index) in articleData" :key="index" v-if="item.images.length ===1 || item.images.length ===2">
+    <div
+      class="singleImgPost"
+      v-for="(item,index) in articleData"
+      :key="index"
+      v-if="item.images.length ===1 || item.images.length ===2"
+    >
       <div class="imgOne">
         <img :src="item.images[0]" alt />
       </div>
@@ -58,47 +70,52 @@
         <div class="article" v-html="item.summary"></div>
 
         <div class="Info">
-        <div class="left">
-        <span class="city">
-          <i class="el-icon-location-outline"></i>
-          {{item.cityName}}</span>
-        <span class="userImg">
-          by
-            <img :src="$axios.defaults.baseURL + item.account.defaultAvatar" alt />
-          {{item.account.nickname}}</span>
-        <span class="browseVolume">
-           <i class="el-icon-view"></i>
-           {{item.watch === null ? 0 : item.watch}}
-          </span>
+          <div class="left">
+            <span class="city">
+              <i class="el-icon-location-outline"></i>
+              {{item.cityName}}
+            </span>
+            <span class="userImg">
+              by
+              <img :src="$axios.defaults.baseURL + item.account.defaultAvatar" alt />
+              {{item.account.nickname}}
+            </span>
+            <span class="browseVolume">
+              <i class="el-icon-view"></i>
+              {{item.watch === null ? 0 : item.watch}}
+            </span>
           </div>
           <span class="like">{{item.like === null? 0 : item.like}} 赞</span>
-      </div>
-      </div>
-    </div>
-
+        </div>
       </div>
     </div>
     <!-- 没有图片 -->
-        <div class="normal" v-for="(item,index) in articleData" :key="index" v-if="item.images.length ===0">
+    <div
+      class="normal"
+      v-for="(item,index) in articleData"
+      :key="index"
+      v-if="item.images.length ===0"
+    >
+      <div class="title">{{item.title}}</div>
+      <div class="article" v-html="item.summary"></div>
 
-        <div class="title">{{item.title}}</div>
-        <div class="article" v-html="item.summary"></div>
-
-        <div class="Info">
+      <div class="Info">
         <div class="left">
-        <span class="city">
-          <i class="el-icon-location-outline"></i>
-          {{item.cityName}}</span>
-        <span class="userImg">
-          by
-            <img :src="$axios.defaults.baseURL + item.account.defaultAvatar" alt />
-          {{item.account.nickname}}</span>
-        <span class="browseVolume">
-           <i class="el-icon-view"></i>
-           {{item.watch === null ? 0 : item.watch}}
+          <span class="city">
+            <i class="el-icon-location-outline"></i>
+            {{item.cityName}}
           </span>
-          </div>
-          <span class="like">{{item.like === null? 0 : item.like}} 赞</span>
+          <span class="userImg">
+            by
+            <img :src="$axios.defaults.baseURL + item.account.defaultAvatar" alt />
+            {{item.account.nickname}}
+          </span>
+          <span class="browseVolume">
+            <i class="el-icon-view"></i>
+            {{item.watch === null ? 0 : item.watch}}
+          </span>
+        </div>
+        <span class="like">{{item.like === null? 0 : item.like}} 赞</span>
       </div>
     </div>
   </div>
@@ -211,7 +228,6 @@ export default {
       }
     }
     .article {
-      
       color: #666;
       display: -webkit-box;
       -webkit-box-orient: vertical;
@@ -222,9 +238,9 @@ export default {
     .imgLists {
       display: flex;
       img {
-      width: 200px;
-      height: 150px;
-      margin-right: 10px;
+        width: 200px;
+        height: 150px;
+        margin-right: 10px;
       }
     }
     .Info {
@@ -233,16 +249,16 @@ export default {
       font-size: 12px;
       span {
         padding: 7px;
-        color: #666
+        color: #666;
       }
       .userImg {
         display: inline-block;
         padding-top: 20px;
         img {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+          vertical-align: middle;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
         }
       }
       .like {
@@ -250,11 +266,9 @@ export default {
         color: orange;
       }
     }
-    
-   
-}
-// 一张或者两张图片
- .singleImgPost {
+  }
+  // 一张或者两张图片
+  .singleImgPost {
     border-bottom: 1px solid #ccc;
     padding: 30px 0;
     display: flex;
@@ -264,38 +278,38 @@ export default {
       margin-left: 48px;
       .article {
         color: #666;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
       }
       .user {
         border-bottom: none;
         font-size: 13px;
       }
     }
-      .imgOne {
-       width: 30%;
-        img {
-         width: 250px;
+    .imgOne {
+      width: 30%;
+      img {
+        width: 250px;
+      }
     }
-  }
-      .Info {
+    .Info {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
       span {
         padding: 7px;
-        color: #666
+        color: #666;
       }
       .userImg {
         display: inline-block;
         padding-top: 20px;
         img {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+          vertical-align: middle;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
         }
       }
       .like {
@@ -303,13 +317,12 @@ export default {
         color: orange;
       }
     }
-    }
-
-    // 没有图片
- .normal {
+  }
+  // 没有图片
+  .normal {
     border-bottom: 1px solid #ccc;
     padding: 30px 0;
-      .title {
+    .title {
       font-size: 24px;
       color: #000;
       font-weight: 700px;
@@ -317,29 +330,29 @@ export default {
         color: orange;
       }
     }
-      .article {
-        color: #666;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-        overflow: hidden;
-      }
-      .Info {
+    .article {
+      color: #666;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+    }
+    .Info {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
       span {
         padding: 7px;
-        color: #666
+        color: #666;
       }
       .userImg {
         display: inline-block;
         padding-top: 20px;
         img {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+          vertical-align: middle;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
         }
       }
       .like {
@@ -347,6 +360,6 @@ export default {
         color: orange;
       }
     }
-    }
   }
+}
 </style>
