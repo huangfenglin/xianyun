@@ -4,7 +4,9 @@
     <div class="cityNav" @mouseleave="hiddenhotCities">
 
       <div class="strategy">
-        <div v-for="(item,index) in cityMenuList" :key="index" @mouseover="getHotCities(index)">
+        <div v-for="(item,index) in cityMenuList" :key="index" 
+        :class="{active: index === currentIndex&&isShow}"
+        @mouseover="getHotCities(index)">
           {{item.type}}
           <span class ="el-icon-arrow-right"></span>
       </div>
@@ -15,11 +17,15 @@
         <span class="ranking">{{index + 1}}</span>
         <span class="city">{{item.city}}</span>
         <span class="describe">{{item.desc}}</span>
-
       </p>
     </div>
 
   </div>
+
+    <div class="recommendCity">
+    <h3>推荐城市</h3>
+    <img src="~/assets/images/pic_sea.jpeg" alt="">
+    </div>  
 </div>
 </template>
 
@@ -29,7 +35,7 @@ export default {
     return {
       cityMenuList: [],
       isShow: false,
-      currentIndex: 0,
+      currentIndex: null,
     }
   },
   methods: {
@@ -57,8 +63,8 @@ export default {
 
 <style lang="less" scoped>
   .leftNav {
+    margin-top: 20px;
     width: 260px;
-    height: 165px;
     .cityNav {
       position: relative;
       .strategy {
@@ -68,6 +74,9 @@ export default {
           border: 1px solid #ccc;
           border-bottom: none;
           font-size: 16px;
+          &:last-child {
+            border-bottom: 1px solid #ccc;
+          }
           &:hover {
             color: #FFA500;
             span {
@@ -86,11 +95,12 @@ export default {
     .hotCities {
       position: absolute;
       top: 0;
-      left: 249px;
+      left: 260px;
       padding: 10px 15px;
       width: 350px;
       height: 200px;
       border: 1px solid #ccc;
+      border-left: none;
       background: #fff;
       z-index: 999;
       p {
@@ -121,5 +131,23 @@ export default {
 
       }
     }
+    .recommendCity{
+        h3 {
+          margin: 20px 0 12px 0;
+          font-weight: normal;
+          font-size: 16px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid #ccc;
+        }
+      img {
+        cursor: pointer;
+        width: 260px;
+        height: 173px;
+        display: block;
+      }
+    }
+  }
+  .active {
+    border-right: 0px !important;
   }
 </style>

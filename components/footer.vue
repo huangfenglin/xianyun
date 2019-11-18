@@ -1,6 +1,6 @@
 <template>
     <div class="footer-wrapper">
-        <div class="footer">
+        <div class="footer" >
             <el-row class="info-list">
                 <el-col :span="6" :offset="1">
                     <h5>闲云旅游旅游网</h5>
@@ -53,6 +53,7 @@ export default {
         background:#333;
         color:#ccc;
         min-width:1000px;
+        
     }
 
     .footer{
