@@ -18,6 +18,7 @@
         <span class="city">{{item.city}}</span>
         <span class="describe">{{item.desc}}</span>
       </p>
+      <i class="border"></i>
     </div>
 
   </div>
@@ -63,11 +64,14 @@ export default {
 
 <style lang="less" scoped>
   .leftNav {
+    position: relative;
     margin-top: 20px;
     width: 260px;
     .cityNav {
       position: relative;
       .strategy {
+        position: relative; 
+        z-index: 11;
         div {
           line-height: 40px;
           padding-left: 20px;
@@ -95,14 +99,14 @@ export default {
     .hotCities {
       position: absolute;
       top: 0;
-      left: 260px;
+      left: 259px;
       padding: 10px 15px;
       width: 350px;
-      height: 200px;
-      border: 1px solid #ccc;
-      border-left: none;
+      height: 180px;
+      border: 1px solid #ddd;
+      border-left: 0;
       background: #fff;
-      z-index: 999;
+      z-index: 2;
       p {
         height: 36px;
         .ranking {
@@ -127,9 +131,15 @@ export default {
             &:hover {
           text-decoration: underline; 
         }
-        }
-
+        } 
       }
+          .border {
+          height: 37px;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          border-left: 1px solid #ddd;
+        }
     }
     .recommendCity{
         h3 {
@@ -137,7 +147,7 @@ export default {
           font-weight: normal;
           font-size: 16px;
           padding-bottom: 10px;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #ddd;
         }
       img {
         cursor: pointer;
@@ -148,6 +158,8 @@ export default {
     }
   }
   .active {
-    border-right: 0px !important;
+    position: relative;
+    z-index: 11;
+    border-right: #fff !important;
   }
 </style>
