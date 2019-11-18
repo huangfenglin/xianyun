@@ -118,6 +118,16 @@
         <span class="like">{{item.like === null? 0 : item.like}} 赞</span>
       </div>
     </div>
+
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="pageIndex"
+      :page-sizes="[3, 5, 10, 15]"
+      :page-size="3"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    ></el-pagination>
   </div>
 </template>
 
@@ -125,17 +135,41 @@
 export default {
   data() {
     return {
-      articleData: []
+      articleData: [],
+      pageIndex: 1,
+      pageSize: 3,
+      total: 0
     };
   },
-  mounted() {
-    this.$axios({
-      url: "posts"
+  methods: {
+    getpostsList(){
+      this.$axios({
+      url: "posts",
+      params: {
+        _start: this.pageIndex,
+        _limit: this.pageSize
+      }
     }).then(res => {
       console.log(res.data);
-      const { data } = res.data;
+      const { data, total } = res.data;
       this.articleData = data;
+      this.total = total
     });
+    },
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.getpostsList()
+
+    },
+    handleCurrentChange(val) {
+      // 改变当前页码
+      this.pageIndex = val;
+      // 重新获取文章列表页
+      this.getpostsList()
+    }
+  },
+  mounted() {
+    this.getpostsList()
   }
 };
 </script>
