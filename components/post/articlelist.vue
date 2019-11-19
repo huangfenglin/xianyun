@@ -27,6 +27,7 @@
       v-for="(item,index) in articleData"
       :key="index"
       v-if="item.images.length >= 3 "
+      @click="goDetail(item.id)"
     >
       <div class="title">{{item.title}}</div>
       <div class="article" v-html="item.summary"></div>
@@ -60,6 +61,7 @@
       v-for="(item,index) in articleData"
       :key="index"
       v-if="item.images.length ===1 || item.images.length ===2"
+      @click="goDetail(item.id)"
     >
       <div class="imgOne">
         <img :src="item.images[0]" alt />
@@ -95,6 +97,7 @@
       v-for="(item,index) in articleData"
       :key="index"
       v-if="item.images.length ===0"
+      @click="goDetail(item.id)"
     >
       <div class="title">{{item.title}}</div>
       <div class="article" v-html="item.summary"></div>
@@ -200,6 +203,12 @@ export default {
       this.pageIndex = val;
       // 重新获取文章列表页
       this.getpostsList()
+    },
+    goDetail(id) {
+      this.$router.push({
+        path: "/post/postDetail",
+        query: {id:id}
+      })
     }
   },
   mounted() {
