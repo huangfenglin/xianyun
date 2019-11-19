@@ -13,7 +13,7 @@
       </el-row>
       <!-- 攻略信息时间和阅读量 -->
       <el-row type="flex" justify="end" class="post-info">
-        <span class>攻略 {{item.city.created_at}}</span>
+        <span class>攻略 {{creat_time}}</span>
         <span>阅读：{{item.watch}}</span>
       </el-row>
       <!-- 文章 -->
@@ -25,8 +25,8 @@
       <el-row class="btn" type="flex" justify="center">
         <el-row type="flex">
           <el-row class="Vertical">
-             <i class="el-icon-edit-outline"></i>
-              <span>评论({{item.comments.length}})</span>
+            <i class="el-icon-edit-outline"></i>
+            <span>评论({{item.comments.length}})</span>
           </el-row>
           <el-row class="Vertical">
             <i class="el-icon-star-off"></i>
@@ -47,25 +47,26 @@
 </template>
 
 <script>
+import moment from "moment"
 export default {
   data() {
     return {
       item: {
-        city:{},
-        comments:[]
+        comments: []
       },
-    }
+      creat_time: ""
+    };
   },
   mounted() {
     this.$axios({
-      url:"/posts",
+      url: "/posts",
       params: this.$route.query
     }).then(res => {
       console.log(res.data);
-      const {data} = res.data;
-      this.item = data[0]
-      
-    })
+      const { data } = res.data;
+      this.item = data[0];
+      this.creat_time = moment(this.item.created_at).format(`YYYY-MM-DD  hh:mm`);
+    });
   }
 };
 </script>
@@ -81,7 +82,7 @@ export default {
       padding: 20px 0;
       border-bottom: 1px solid #ddd;
     }
-   .post-info {
+    .post-info {
       padding: 20px;
       span {
         color: #999;
@@ -104,16 +105,15 @@ export default {
         margin: 0 20px;
         i {
           font-size: 28px;
-          color: orange
+          color: orange;
         }
         span {
           margin-top: 5px;
           font-size: 14px;
-          color: #999
+          color: #999;
         }
       }
     }
   }
-
 }
 </style>
