@@ -28,7 +28,7 @@
             <i class="el-icon-edit-outline"></i>
             <span>评论({{item.comments.length}})</span>
           </el-row>
-          <el-row class="Vertical">
+          <el-row class="Vertical" @click.native="handleCollect">
             <i class="el-icon-star-off"></i>
             <span>收藏</span>
           </el-row>
@@ -36,7 +36,7 @@
             <i class="el-icon-share"></i>
             <span>分享</span>
           </el-row>
-          <el-row class="Vertical">
+          <el-row class="Vertical" @click.native="handleLike(item.id)">
             <i class="iconfont iconding"></i>
             <span>点赞{{item.like}}</span>
           </el-row>
@@ -57,6 +57,43 @@ export default {
       creat_time: ""
     };
   },
+  methods: {
+    // 收藏文章
+    handleCollect() {
+      this.$axios({
+        url: "/posts/star",
+        params: this.$route.query,
+        headers: {
+          Authorization: "Bearer " + this.$store.state.user.userInfo.token
+        }
+      }).then( res => {
+        console.log(res);
+          if(res.status === 200) {
+            this.$message.success(res.data.message)
+          }
+      })
+    },
+    // 点赞文章
+    handleLike(id) {
+      console.log(id);
+      
+      this.$axios({
+        url: "posts/like",
+        params:{
+          id
+        },
+        headers: {
+          Authorization: "Bearer " + this.$store.state.user.userInfo.token
+        }
+      }).then( res=>{
+        console.log(res);
+        if(res.status === 200) {
+          this.$message.success(res.data.message)
+        }
+        
+      })
+    }
+  },
   mounted() {
     this.$axios({
       url: "/posts",
@@ -65,10 +102,10 @@ export default {
       console.log(res.data);
       const { data } = res.data;
       this.item = data[0];
-      this.creat_time = moment(this.item.created_at).format(`YYYY-MM-DD  hh:mm`);
+      this.creat_time = moment(this.item.created_at).format(`YYYY-MM-DD hh:mm`);
     });
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
