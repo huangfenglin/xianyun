@@ -2,15 +2,15 @@
   <div class="box">
     <!-- 头部搜索 -->
     <div class="search">
-      <input type="text" placeholder="请输入想去的地方,  比如:  '广州'" class="input" />
-      <i class="el-icon-search"></i>
+      <input type="text" placeholder="请输入想去的地方,  比如:  '广州'" v-model.lazy="searchCity" class="input"/>
+      <i class="el-icon-search" @click="searchStrategy"></i>
     </div>
     <!-- 推荐城市 -->
     <div class="SuggestedCity">
       <em>推荐:</em>
-      <span class="cities">广州</span>
-      <span class="cities">上海</span>
-      <span class="cities">北京</span>
+      <span class="cities" v-for="(item,index) in popularCity.children" :key="index"
+      @click="getCity(item.city)"
+      >{{item.city}}</span>
     </div>
     <!-- 推荐攻略 -->
     <div class="strategy">
@@ -139,6 +139,10 @@ export default {
     cityData: {
       type: String,
       default: ""
+    },
+    popularCity: {
+      type: Object,
+      default: {}
     }
   },
   data() {
@@ -147,22 +151,36 @@ export default {
       pageIndex: 1,
       pageSize: 3,
       total: 0,
-      isShow: false
+      searchCity:"",
+      isShow: false,
     };
   },
   methods: {
+    searchStrategy(){
+      console.log(event);
+      if(!this.searchCity) return
+      this.getpostsList()
+
+    },
+    getCity(get_city){
+      this.searchCity = get_city
+    },
     getpostsList(){
+      // console.log(this.$route.query.city);
+      
       let data = {
         _start: this.pageIndex,
         _limit: this.pageSize
       }
       if(this.cityData) {
         data.city = this.cityData
+      } else if(this.searchCity){
+        data.city = this.searchCity;
       }
       console.log(data);
       
       this.$axios({
-      url: "posts",
+      url: "/posts/",
       params: data
     }).then(res => {
       console.log(res.data);
@@ -190,6 +208,9 @@ export default {
   watch: {
     cityData() {
       this.getpostsList()
+    },
+    searchCity() {
+      this.getpostsList();
     }
   }
 };

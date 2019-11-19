@@ -65,7 +65,7 @@ export default {
       console.log(res);
       const {data} = res.data;
       this.cityMenuList = data
-      
+      this.$emit("getPopularCity",this.cityMenuList[1])
     })
   }
 }

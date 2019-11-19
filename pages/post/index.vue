@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <!-- 左侧边栏组件 -->
-  <leftNavigation @getCity="getCity"/>
+  <leftNavigation @getCity="getCity" @getPopularCity="getPopularCity"/>
 
   <!-- 右边组件 -->
   <div class="articleList">
-  <articleList :cityData="cityData"/>
+  <articleList :cityData="cityData" :popularCity="popularCity"/>
    
   </div>
   </div>
@@ -23,11 +23,15 @@ components: {
 data() {
   return {
     cityData:"",
+    popularCity: {}
   }
 },
 methods: {
   getCity(city) {
     this.cityData = city
+  },
+  getPopularCity(PopularCity){
+    this.popularCity = PopularCity;
   }
 }
 }
