@@ -45,13 +45,24 @@
     </el-row>
 
     <CommentFloor 
-    v-for="(item,index) in commend"
+    v-for="(item,index) in datalist"
     :key="index"
     :data=item
     class="commends"
     @handleReply="handleReply"
     />
-
+<!-- 分页 -->
+    <el-row class="block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pageIndex"
+        :page-sizes="[2, 4, 6, 8]"
+        :page-size="100"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="commend.length"
+      ></el-pagination>
+    </el-row>
   </el-row>
 </template>
 
@@ -70,7 +81,10 @@ export default {
         follow: Number
       },
       commend: [],
-      isShow: ""
+      isShow: "",
+      datalist: [],
+      pageIndex: 1,
+      pageSize: 2,
     };
   },
   methods: {
@@ -86,6 +100,7 @@ export default {
       const { data } = res.data;
       this.commend = data
       console.log(data);
+       this.datalist = this.commend.slice(0, this.pageSize);
       
     })
     },
@@ -120,6 +135,8 @@ export default {
         // console.log(res);
         if(res.status ==200) {
           this.$message.success("评论成功");
+          this.form.content = "";
+          this.form.pics = [];
           this.getComments()
         }
       })
@@ -133,7 +150,21 @@ export default {
     },
     handleCancel(){
       this.isShow = ""
-    }
+    },
+    // 分页相关功能
+    // 切换条数
+    handleSizeChange(val){
+      this.pageSize = val;
+      this.datalist = this.commend.slice(0, this.pageSize)
+    },
+    // 切换页码
+    handleCurrentChange(val){
+      this.pageIndex = val;
+      this.datalist = this.commend.slice(
+        (this.pageIndex - 1) * this.pageSize,
+        this.pageSize * this.pageIndex
+      ) 
+    },
   },
   mounted() {
     this.getComments()
