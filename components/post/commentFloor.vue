@@ -22,7 +22,7 @@
           <img :src="$axios.defaults.baseURL+item.url" alt />
         </el-row>
       </el-row>
-      <span class="reply">回复</span>
+      <span class="reply" @click="handleReply(data)">回复</span>
     </el-row>
   </el-row>
 </template>
@@ -36,6 +36,11 @@ export default {
       type: Object,
       default: {}
     }
+  },
+  methods: {
+     handleReply(item) {
+       this.$emit("handleReply",item)
+     }
   },
   filters: {
     format(val) {

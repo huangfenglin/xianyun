@@ -1,6 +1,11 @@
 <template>
   <el-row class="content">
     <p class="title">评论</p>
+    <!-- 回复 -->
+      <span class="huifu" v-if="isShow">
+      回复 @{{isShow}}
+      <i class="iconfont icon-guanbi" @click="handleCancel"></i>
+    </span>
     <!-- 文本域 -->
     <el-row>
       <textarea
@@ -31,6 +36,7 @@
           list-type="picture-card"
           :on-remove="handleRemove"
           :on-success="handleAvatarSuccess"
+          :clearFiles="handleclearFiles"
         >
           <i class="el-icon-plus"></i>
         </el-upload>
@@ -43,6 +49,7 @@
     :key="index"
     :data=item
     class="commends"
+    @handleReply="handleReply"
     />
 
   </el-row>
@@ -63,6 +70,7 @@ export default {
         follow: Number
       },
       commend: [],
+      isShow: ""
     };
   },
   methods: {
@@ -115,6 +123,16 @@ export default {
           this.getComments()
         }
       })
+    },
+    //提交成功后清除图片
+    handleclearFiles() {},
+    handleReply(value){
+      this.isShow = value.account.nickname;
+      this.form.follow = value.id;
+      this.$refs.textarea.focus()
+    },
+    handleCancel(){
+      this.isShow = ""
     }
   },
   mounted() {
@@ -126,6 +144,22 @@ export default {
   .content {
     margin-bottom: 20px;
     width: 720px;
+    .huifu {
+      background-color: #f4f4f5;
+      margin-bottom: 10px;
+      color: #999;
+      padding: 0 10px;
+      height: 32px;
+      line-height: 32px;
+      font-size: 12px;
+      display: inline-block;
+      border-radius: 4px;
+      border: 1px solid rgba(64, 158, 255, .2);
+      i:hover {
+        background-color: #999;
+        color: #fff;
+      } 
+    }
     .title {
       color: #000;
       margin-bottom: 20px;
