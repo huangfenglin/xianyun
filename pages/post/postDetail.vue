@@ -44,21 +44,26 @@
       </el-row>
       <PostComment/>
     </el-row>
+    <!-- 右边 -->
+    <postDetailAside :data="aside" @handleAside="handleAside"/>
   </el-row>
 </template>
 
 <script>
 import PostComment from "@/components/post/postComment"
+import postDetailAside from "@/components/post/postDetailAside"
 import moment from "moment"
 export default {
   components: {
-    PostComment
+    PostComment,
+    postDetailAside
   },
   data() {
     return {
       item: {
         comments: []
       },
+      aside:[],
       creat_time: ""
     };
   },
@@ -97,6 +102,16 @@ export default {
         }
         
       })
+    },
+    handleAside(id){
+      this.$axios({
+        url: "/posts",
+        params: { id }
+      }).then(res=>{
+            const { data } = res.data;
+      this.item = data[0];
+      this.creat_time = moment(this.item.created_at).format(`YYYY-MM-DD hh:mm`);
+      })
     }
   },
   mounted() {
@@ -109,6 +124,14 @@ export default {
       this.item = data[0];
       this.creat_time = moment(this.item.created_at).format(`YYYY-MM-DD hh:mm`);
     });
+
+      this.$axios({
+        url: "/posts/recommend",
+        params: this.$route.query
+      }).then(res => {
+        const { data } = res.data;
+         this.aside = data;
+      });
   }
 }
 </script>

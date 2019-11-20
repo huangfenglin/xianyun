@@ -4,7 +4,7 @@
     <!-- 回复 -->
       <span class="huifu" v-if="isShow">
       回复 @{{isShow}}
-      <i class="iconfont icon-guanbi" @click="handleCancel"></i>
+      <i class="el-tag__close el-icon-close" @click="handleCancel"></i>
     </span>
     <!-- 文本域 -->
     <el-row>
@@ -133,11 +133,13 @@ export default {
         }
       }).then(res => {
         // console.log(res);
-        if(res.status ==200) {
+        if(res.status === 200) {
           this.$message.success("评论成功");
+          this.getComments()
+          thi.handleclearFiles()
           this.form.content = "";
           this.form.pics = [];
-          this.getComments()
+          
         }
       })
     },

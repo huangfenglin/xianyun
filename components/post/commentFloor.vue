@@ -5,11 +5,11 @@
       <el-row class="user_Info" type="flex">
         <img :src="$axios.defaults.baseURL+data.account.defaultAvatar" alt />
         <span>{{data.account.nickname}}</span>
-        <i>{{data.account.created_at|format}}</i>
+        <i>{{data.updated_at|format}}</i>
       </el-row>
       <em>{{data.level}}</em>
     </el-row>
-      <Item :data="data.parent" v-if="data.parent" class="item" />
+      <Item :data="data.parent" v-if="data.parent" class="item" @handleReply="handleReply" />
     <el-row class="content">
       <p>{{data.content}}</p>
       <el-row type="flex" justify="start">
@@ -44,7 +44,7 @@ export default {
   },
   filters: {
     format(val) {
-      val = moment(val).format("YY-MM-DD hh:mm");
+      val = moment(val).format("YYYY-MM-DD hh:mm");
       return val;
     }
   }
