@@ -180,7 +180,7 @@ export default {
       } else if(this.searchCity){
         data.city = this.searchCity;
       }
-      console.log(data);
+      // console.log(data);
       
       this.$axios({
       url: "/posts/",

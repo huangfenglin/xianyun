@@ -50,9 +50,6 @@ export default {
 .container {
   box-sizing: border-box;
   padding: 10px 3px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
   background: #fff;
   .user {
     margin-bottom: 10px;
@@ -107,7 +104,7 @@ export default {
       bottom: 0;
       font-size: 14px;
     }
-    &:hover .reply {
+      .content:hover .reply {
       display: block;
       color: #4093ff;
       cursor: pointer;
@@ -115,6 +112,7 @@ export default {
   }
   .item {
     background-color: #f9f9f9;
+    border: 1px solid #ddd !important;
   }
 }
 </style>

@@ -62,7 +62,7 @@ export default {
     this.$axios({
       url: "/posts/cities"
     }).then(res => {
-      console.log(res);
+      // console.log(res);
       const {data} = res.data;
       this.cityMenuList = data
       this.$emit("getPopularCity",this.cityMenuList[1])

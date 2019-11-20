@@ -42,13 +42,18 @@
           </el-row>
         </el-row>
       </el-row>
+      <PostComment/>
     </el-row>
   </el-row>
 </template>
 
 <script>
+import PostComment from "@/components/post/postComment"
 import moment from "moment"
 export default {
+  components: {
+    PostComment
+  },
   data() {
     return {
       item: {
@@ -99,7 +104,7 @@ export default {
       url: "/posts",
       params: this.$route.query
     }).then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       const { data } = res.data;
       this.item = data[0];
       this.creat_time = moment(this.item.created_at).format(`YYYY-MM-DD hh:mm`);
