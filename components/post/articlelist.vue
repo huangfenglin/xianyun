@@ -15,7 +15,7 @@
     <!-- 推荐攻略 -->
     <div class="strategy">
       <h3 class="title">推荐攻略</h3>
-      <span class="write">
+      <span class="write" @click="jumpPage">
         <i class="el-icon-edit"></i>
         写游记
       </span>
@@ -209,6 +209,9 @@ export default {
         path: "/post/postDetail",
         query: {id:id}
       })
+    },
+    jumpPage() {
+      this.$router.push({ path: "/post/postAdd" });
     }
   },
   mounted() {

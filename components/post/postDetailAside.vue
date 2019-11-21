@@ -30,10 +30,6 @@ export default {
   methods: {
     handleDetail(id){
       if(this.$route.query.id == id) return;
-      this.$router.push({
-        path:"/post/postDetail",
-        query: {id}
-      })
       this.$emit("handleAside", id);
     }
   },
@@ -57,6 +53,7 @@ export default {
       border-bottom: 1px solid #ddd;
     }
     .post_list {
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
       padding: 20px 0;

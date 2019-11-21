@@ -58,7 +58,6 @@
         @current-change="handleCurrentChange"
         :current-page="pageIndex"
         :page-sizes="[2, 4, 6, 8]"
-        :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
         :total="commend.length"
       ></el-pagination>
@@ -136,7 +135,7 @@ export default {
         if(res.status === 200) {
           this.$message.success("评论成功");
           this.getComments()
-          thi.handleclearFiles()
+          this.handleclearFiles()
           this.form.content = "";
           this.form.pics = [];
           
