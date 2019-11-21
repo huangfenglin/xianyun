@@ -42,7 +42,7 @@
           </el-row>
         </el-row>
       </el-row>
-      <PostComment/>
+      <PostComment :id="item.id"/>
     </el-row>
     <!-- 右边 -->
     <postDetailAside :data="aside" @handleAside="handleAside"/>
@@ -99,20 +99,34 @@ export default {
         console.log(res);
         if(res.status === 200) {
           this.$message.success(res.data.message)
+          this.item.like++
         }
         
       })
     },
-    handleAside(id){
+ //点击侧边栏跳转
+    handleAside(id) {
       this.$axios({
         url: "/posts",
         params: { id }
-      }).then(res=>{
-            const { data } = res.data;
-      this.item = data[0];
-      this.creat_time = moment(this.item.created_at).format(`YYYY-MM-DD hh:mm`);
-      })
-    }
+      }).then(res => {
+        let { data } = res.data;
+        let cityId = res.city;
+        this.item = data[0];
+        this.creat_time = moment(this.item.update_at).format(
+          `YYYY-MM-DD  hh-mm`
+        );
+        this.$router.push(`/post/postDetail?id=` + id);
+        this.$axios({
+          url: "/posts/recommend",
+          params: this.$route.query
+        }).then(res => {
+          let { data } = res.data;
+          this.aside = data;
+        });
+      });
+    },
+
   },
   mounted() {
     this.$axios({
