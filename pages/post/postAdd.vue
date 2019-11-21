@@ -45,11 +45,7 @@
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor";
 export default {
-  components: {
-    VueEditor
-  },
   data() {
     return {
       form: {
