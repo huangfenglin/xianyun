@@ -19,6 +19,8 @@
            v-model="form.content" />
         </el-form-item>
 
+        <!-- fetch-suggestions: 类似于input方法，每次输入框值发生变化时候回触发 -->
+        <!-- select：选中下拉列表中的值的时候触发的触发  -->
         <div class="selector">
           <div class="cities">选择城市</div>
           <!-- 选择城市输入框 -->
@@ -27,6 +29,9 @@
             class="inline-input"
             v-model="form.city"
             placeholder="请搜索游玩城市"
+            :fetch-suggestions="querySearch"
+            @select="handleSelect"
+            @blur="handleBlur"
             ></el-autocomplete>
           </el-form-item>
         </div>
@@ -52,9 +57,44 @@ export default {
         content:"",
         title: ""
       },
+      // 存放城市列表的数据
       cities: [],
       customToolbar: [["bold", "italic", "underline"], [{ list: "ordered" }, { list: "bullet" }], ["image", "code-block"],["video"]]
     }
+  },
+  methods: {
+    querySearch (value,cb) {
+      if(!value){
+        return cb([]);
+      }
+      this.$axios({
+        url: "/airs/city?",
+        params:{ 
+           name:value
+        }
+      }).then(res => {
+        const { data } = res.data
+       this.Cities = data.map(v => {
+          v.value = v.name.replace("市", "");
+          return v;
+        });
+        console.log(this.Cities);
+        
+        cb(this.Cities);
+      })
+    },
+    handleSelect(item){
+      this.form.city = item.value
+      console.log(this.form);
+      
+    },
+        // 输入框失去焦点时
+    handleBlur() {
+      if(this.Cities.length > 0){
+        this.form.city = this.Cities[0].value
+      }
+      
+    },
   }
 }
 </script>
